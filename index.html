@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentPoint | Conectando Estudantes e Oportunidades</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            500: '#3b82f6',
+                            600: '#2563eb', // Professional blue accent
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#172554'
+                        },
+                        accentBlue: {
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                        },
+                        accentYellow: {
+                            400: '#facc15',
+                            500: '#eab308',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-ticker {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+        .animate-ticker:hover {
+            animation-play-state: paused;
+        }
+        /* Enforcing black text rule for high legibility */
+        body, h1, h2, h3, h4, h5, h6, p, span, a, button, input, textarea, select {
+            color: #000000;
+        }
+        /* Overrides for specific dark containers where text must remain white */
+        .text-white, .text-white *, .bg-slate-900 *, .bg-brand-600 * {
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+    <div class="bg-slate-900 text-white text-xs py-2 overflow-hidden border-b border-slate-800 relative z-50">
+        <div class="flex items-center">
+            <div class="bg-brand-600 text-white px-3 py-1 font-bold text-[10px] uppercase tracking-wider shrink-0 flex items-center gap-1.5 z-10 shadow-sm ml-2">
+                <i class="fa-solid fa-bolt text-accentYellow-400 animate-pulse"></i> Vagas Recentes
+            </div>
+            <div class="overflow-hidden flex-1 relative flex">
+                <div class="animate-ticker flex items-center gap-8 pl-4 text-slate-300">
+                    <span class="inline-flex items-center gap-2 cursor-pointer hover:text-white transition" onclick="openJobModal(1)">
+                        <strong class="text-white font-semibold">TechCorp:</strong> Estágio em Desenvolvimento Frontend • São Paulo (Híbrido)
+                    </span>
+                    <span class="text-slate-600">•</span>
+                    <span class="inline-flex items-center gap-2 cursor-pointer hover:text-white transition" onclick="openJobModal(2)">
+                        <strong class="text-white font-semibold">GrowthMedia:</strong> Analista de Marketing Digital Jr • Remoto
+                    </span>
+                    <span class="text-slate-600">•</span>
+                    <span class="inline-flex items-center gap-2 cursor-pointer hover:text-white transition" onclick="openJobModal(3)">
+                        <strong class="text-white font-semibold">CapitalInvest:</strong> Estágio em Finanças Corporativas • Rio de Janeiro
+                    </span>
+                    <span class="text-slate-600">•</span>
+                    <span class="inline-flex items-center gap-2 cursor-pointer hover:text-white transition" onclick="openJobModal(4)">
+                        <strong class="text-white font-semibold">DesignHub:</strong> UX/UI Designer Júnior • Florianópolis
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('landing')">
+                <img src="img/logo-talent-point.png" alt="TalentPoint Logo" class="h-10 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x40/2563eb/ffffff?text=TalentPoint';">
+            </div>
+            
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#vagas" onclick="switchView('landing')" class="hover:text-brand-600 transition flex items-center gap-1.5"><i class="fa-solid fa-briefcase text-xs text-brand-600"></i> Explorar Vagas</a>
+                <a href="#como-funciona" onclick="switchView('landing')" class="hover:text-brand-600 transition flex items-center gap-1.5"><i class="fa-solid fa-compass text-xs text-brand-600"></i> Como Funciona</a>
+                <a href="#institucional" onclick="switchView('landing')" class="hover:text-brand-600 transition flex items-center gap-1.5"><i class="fa-solid fa-circle-info text-xs text-brand-600"></i> Sobre o Projeto</a>
+                <a href="#setores" onclick="switchView('landing')" class="hover:text-brand-600 transition flex items-center gap-1.5"><i class="fa-solid fa-layer-group text-xs text-brand-600"></i> Categorias</a>
+            </nav>
+
+            <div class="flex items-center gap-3" id="authNavContainer">
+                <button onclick="openAuthModal('candidate')" class="px-4 py-2 text-sm font-medium text-brand-700 hover:bg-brand-50 rounded-none transition flex items-center gap-2 border border-brand-200 shadow-sm">
+                    <i class="fa-solid fa-user text-xs text-accentYellow-500"></i> Sou Estudante
+                </button>
+                <button onclick="openAuthModal('company')" class="px-4 py-2 text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 rounded-none transition flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-building text-xs text-accentYellow-400"></i> Para Empresas
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        
+        <div id="view-landing" class="block">
+            
+            <!-- Hero Section -->
+            <section class="relative overflow-hidden pt-12 pb-16 lg:pt-20 lg:pb-24 bg-white border-b border-slate-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-7 text-center lg:text-left">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-brand-50 text-brand-700 text-xs font-semibold mb-4 border border-brand-200">
+                                <i class="fa-solid fa-sparkles text-accentYellow-500"></i> O portal inteligente para o seu futuro profissional
+                            </span>
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight mb-4">
+                                Conectando <span class="text-brand-600">Estudantes Talentosos</span> a Grandes Empresas.
+                            </h1>
+                            <p class="text-sm sm:text-base mb-6 max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                                Encontre estágios e vagas efetivas compatíveis com o seu perfil acadêmico. Receba alertas para entrevistas e envie seu currículo com apenas 1 clique.
+                            </p>
+                            
+                            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-4">
+                                <button onclick="openResumeModal()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-none transition flex items-center gap-2 text-sm shadow-sm">
+                                    <i class="fa-solid fa-file-arrow-up text-sm text-accentYellow-400"></i> Cadastrar Currículo
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-5 relative flex justify-center">
+                            <div class="w-full max-w-lg flex items-center justify-center p-2">
+                                <img src="img/b1.png" alt="TalentPoint Ecosystem" class="w-auto h-auto max-h-[500px] object-contain drop-shadow-md scale-[1.20]" onerror="this.onerror=null; this.src='https://placehold.co/650x500/2563eb/ffffff?text=TalentPoint+Ecosystem';">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Verified Opportunities Section (Inverted: Text on Right, Image on Left) -->
+            <section class="py-16 bg-slate-900 text-white overflow-hidden relative border-b border-slate-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-5 flex justify-center order-2 lg:order-1">
+                            <div class="relative rounded-none overflow-hidden border border-slate-700 shadow-lg w-full max-w-md aspect-[16/10] group">
+                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Universitária olhando para notebook" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex items-end p-5">
+                                    <span class="text-xs font-medium text-slate-200 flex items-center gap-2"><i class="fa-solid fa-laptop text-accentYellow-400"></i> Notificações em tempo real no seu notebook ou smartphone</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-7 space-y-4 text-center lg:text-left order-1 lg:order-2">
+                            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-none bg-slate-800 text-brand-300 text-xs font-semibold uppercase tracking-wider border border-slate-700">
+                                <i class="fa-solid fa-star text-accentYellow-400"></i> Oportunidades Verificadas
+                            </span>
+                            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                                O emprego certo você encontra aqui.
+                            </h2>
+                            <p class="text-slate-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                                Milhares de estudantes já transformaram sua carreira universitária em uma trajetória de sucesso com o nosso algoritmo de match inteligente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-12 bg-white border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                        <div>
+                            <div class="text-3xl lg:text-4xl font-extrabold mb-1">+1.500</div>
+                            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fa-solid fa-briefcase text-brand-600"></i> Vagas Ativas</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl lg:text-4xl font-extrabold mb-1">+450</div>
+                            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fa-solid fa-building text-brand-600"></i> Empresas Parceiras</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl lg:text-4xl font-extrabold mb-1">+25.000</div>
+                            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fa-solid fa-user-graduate text-brand-600"></i> Estudantes Cadastrados</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl lg:text-4xl font-extrabold mb-1">85%</div>
+                            <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check text-brand-600"></i> Taxa de Contratação</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="como-funciona" class="py-20 bg-white border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-2xl mx-auto mb-16">
+                        <span class="px-3.5 py-1.5 rounded-none bg-brand-50 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-3 inline-block border border-brand-200">
+                            <i class="fa-solid fa-compass mr-1 text-accentYellow-500"></i> Passo a Passo
+                        </span>
+                        <h2 class="text-3xl font-extrabold mb-3">Como Funciona o TalentPoint</h2>
+                        <p class="text-sm font-normal leading-relaxed">Uma jornada simples, rápida e transparente tanto para talentos quanto para empresas.</p>
+                    </div>
+
+                    <div class="space-y-20">
+                        <div class="grid lg:grid-cols-12 gap-12 items-center">
+                            <div class="lg:col-span-6 space-y-6">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-50 text-brand-700 text-xs font-semibold rounded-none border border-brand-200">
+                                    <i class="fa-solid fa-user-graduate text-brand-600"></i> Para Estudantes
+                                </div>
+                                <h3 class="text-2xl sm:text-3xl font-extrabold leading-tight">Sua jornada rumo ao primeiro estágio ou vaga efetiva</h3>
+                                <p class="text-sm leading-relaxed font-normal">Conectamos você diretamente às oportunidades mais alinhadas ao seu curso e aspirações profissionais.</p>
+                                
+                                <div class="space-y-4 pt-2">
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 rounded-none bg-brand-600 text-white font-bold flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-id-card text-accentYellow-400"></i></div>
+                                        <div>
+                                            <h4 class="font-bold text-xs mb-1">Cadastre seu Perfil e Currículo</h4>
+                                            <p class="text-xs text-slate-500 font-normal leading-relaxed">Insira suas competências, curso superior, universidade e envie seu currículo em PDF.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 rounded-none bg-brand-600 text-white font-bold flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-briefcase text-accentYellow-400"></i></div>
+                                        <div>
+                                            <h4 class="font-bold text-xs mb-1">Encontre Vagas Compatíveis</h4>
+                                            <p class="text-xs text-slate-500 font-normal leading-relaxed">Explore a vitrine de oportunidades por categorias e candidate-se com apenas 1 clique.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 rounded-none bg-brand-600 text-white font-bold flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-bell text-accentYellow-400"></i></div>
+                                        <div>
+                                            <h4 class="font-bold text-xs mb-1">Receba Alertas de Entrevista</h4>
+                                            <p class="text-xs text-slate-500 font-normal leading-relaxed">Monitore seu painel e seja notificado instantaneamente quando recrutadores agendarem conversas.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="lg:col-span-6">
+                                <div class="relative rounded-none overflow-hidden border border-slate-200 shadow-sm aspect-[4/3] group">
+                                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Estudante universitário estudando" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                                        <span class="text-white font-medium text-sm">"Encontrei meu estágio em menos de uma semana!"</span>
+                                        <span class="text-xs text-slate-300 mt-1 flex items-center gap-1.5"><i class="fa-solid fa-user text-accentYellow-400"></i> Lucas Monteiro • Ciência da Computação</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid lg:grid-cols-12 gap-12 items-center pt-8">
+                            <div class="lg:col-span-6 order-2 lg:order-1">
+                                <div class="relative rounded-none overflow-hidden border border-slate-200 shadow-sm aspect-[4/3] group">
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" alt="Recrutadora em ambiente corporativo" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex flex-col justify-end p-6">
+                                        <span class="text-white font-medium text-sm">"Contratamos os melhores talentos universitários com agilidade."</span>
+                                        <span class="text-xs text-slate-300 mt-1 flex items-center gap-1.5"><i class="fa-solid fa-building text-accentYellow-400"></i> Camila Mendes • Head de RH TechCorp</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-6 order-1 lg:order-2 space-y-6">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-50 text-brand-700 text-xs font-semibold rounded-none border border-brand-200">
+                                    <i class="fa-solid fa-building text-brand-600"></i> Para Empresas
+                                </div>
+                                <h3 class="text-2xl sm:text-3xl font-extrabold leading-tight">Atraia os melhores talentos em formação para sua corporação</h3>
+                                <p class="text-sm leading-relaxed font-normal">Publique vagas com facilidade e utilize ferramentas avançadas de análise curricular e agendamento.</p>
+                                
+                                <div class="space-y-4 pt-2">
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 rounded-none bg-brand-600 text-white font-bold flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-plus text-accentYellow-400"></i></div>
+                                        <div>
+                                            <h4 class="font-bold text-xs mb-1">Cadastre sua Vaga de Estágio ou Efetiva</h4>
+                                            <p class="text-xs text-slate-500 font-normal leading-relaxed">Publique oportunidades detalhadas especificando requisitos, remuneração e modalidade.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 rounded-none bg-brand-600 text-white font-bold flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-file-invoice text-accentYellow-400"></i></div>
+                                        <div>
+                                            <h4 class="font-bold text-xs mb-1">Analise Candidatos Qualificados</h4>
+                                            <p class="text-xs text-slate-500 font-normal leading-relaxed">Acesse o painel do recrutador para visualizar currículos, fit cultural e dados acadêmicos.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 rounded-none bg-brand-600 text-white font-bold flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-handshake text-accentYellow-400"></i></div>
+                                        <div>
+                                            <h4 class="font-bold text-xs mb-1">Agende e Contrate os Melhores Talentos</h4>
+                                            <p class="text-xs text-slate-500 font-normal leading-relaxed">Conecte-se diretamente com os estudantes através do sistema de agendamento integrado.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="setores" class="py-20 bg-white border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-2xl mx-auto mb-16">
+                        <h2 class="text-3xl font-extrabold mb-2">Explore por Categoria</h2>
+                        <p class="text-sm font-normal">Encontre a área ideal para iniciar sua carreira com foco em desenvolvimento profissional.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-0 divide-x divide-slate-200 border-t border-b border-slate-200" id="categoriesGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="vagas" class="py-20 bg-white border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                        <div>
+                            <span class="text-brand-600 font-semibold text-xs uppercase tracking-wider block mb-2 flex items-center gap-1.5"><i class="fa-solid fa-sparkles text-accentYellow-500"></i> Oportunidades em Destaque</span>
+                            <h2 class="text-3xl font-extrabold">Vitrine de Vagas Recentes</h2>
+                        </div>
+                        <div class="mt-4 md:mt-0 flex gap-2 overflow-x-auto pb-2">
+                            <button onclick="filterCategory('Todas')" class="px-4 py-2 rounded-none text-sm font-medium bg-brand-600 text-white category-btn whitespace-nowrap shadow-sm" data-cat="Todas">Todas</button>
+                            <button onclick="filterCategory('Tecnologia')" class="px-4 py-2 rounded-none text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 category-btn whitespace-nowrap" data-cat="Tecnologia">Tecnologia</button>
+                            <button onclick="filterCategory('Marketing')" class="px-4 py-2 rounded-none text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 category-btn whitespace-nowrap" data-cat="Marketing">Marketing</button>
+                            <button onclick="filterCategory('Finanças')" class="px-4 py-2 rounded-none text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 category-btn whitespace-nowrap" data-cat="Finanças">Finanças</button>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="jobShowcaseContainer">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="institucional" class="py-20 bg-gradient-to-br from-slate-950 via-slate-900 to-brand-950 text-white relative overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="text-center max-w-3xl mx-auto mb-16">
+                        <span class="px-3.5 py-1.5 rounded-none bg-slate-800 text-brand-300 text-xs font-semibold uppercase tracking-wider mb-4 inline-block border border-slate-700">
+                            <i class="fa-solid fa-heart text-accentYellow-400 mr-1"></i> Manifesto TalentPoint
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold mb-4 leading-tight tracking-tight text-white">
+                            Revolucionando o Recrutamento de Jovens Talentos no Brasil
+                        </h2>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed font-normal">
+                            Nascemos para eliminar a burocracia e a distância entre a academia e as corporações mais inovadoras do mercado. Unimos inteligência de dados, matching cultural e transparência absoluta.
+                        </p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-12 gap-12 items-center mb-16">
+                        <div class="lg:col-span-6 space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-none bg-brand-600 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-sm">
+                                    <i class="fa-solid fa-paper-plane text-accentYellow-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-base font-bold text-white mb-1 flex items-center gap-2">Processos Seletivos Transparentes</h4>
+                                    <p class="text-xs text-slate-300 font-normal leading-relaxed">Esqueça o "vácuo" em candidaturas. No TalentPoint, cada etapa é rastreável e você recebe feedback garantido da empresa.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-none bg-brand-800 text-white flex items-center justify-center font-bold text-base shrink-0 border border-slate-700 shadow-sm">
+                                    <i class="fa-solid fa-calendar-check text-accentYellow-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-base font-bold text-white mb-1 flex items-center gap-2">Agente Inteligente de Entrevistas</h4>
+                                    <p class="text-xs text-slate-300 font-normal leading-relaxed">Notificações automáticas via painel e alertas integrados para você nunca perder uma conversa decisiva com gestores.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-none bg-brand-700 text-white flex items-center justify-center font-bold text-base shrink-0 shadow-sm">
+                                    <i class="fa-solid fa-handshake text-accentYellow-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-base font-bold text-white mb-1 flex items-center gap-2">Ecossistema Conectado</h4>
+                                    <p class="text-xs text-slate-300 font-normal leading-relaxed">Universidades de ponta e grandes marcas reunidas em um só lugar para impulsionar a primeira grande oportunidade da sua carreira.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-6 relative">
+                            <div class="space-y-6">
+                                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2.5 h-2.5 rounded-none bg-brand-500"></div>
+                                        <div class="w-2.5 h-2.5 rounded-none bg-accentYellow-400"></div>
+                                        <div class="w-2.5 h-2.5 rounded-none bg-emerald-500"></div>
+                                    </div>
+                                    <span class="text-xs font-mono text-slate-400">talentpoint.engine.v2</span>
+                                </div>
+
+                                <div class="relative rounded-none overflow-hidden aspect-video border border-slate-800 group shadow-md">
+                                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Estudantes e recrutadores conectados" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-5">
+                                        <span class="px-2.5 py-1 bg-brand-600 text-white text-[10px] font-semibold uppercase rounded-none w-max mb-1.5">Caso de Sucesso</span>
+                                        <h4 class="text-white font-bold text-sm leading-snug">+12.000 carreiras iniciadas com sucesso através do nosso algoritmo de match.</h4>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="text-center">
+                                        <div class="text-2xl font-extrabold text-white mb-0.5">98%</div>
+                                        <div class="text-xs text-slate-400 font-medium">Satisfação dos Estudantes</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="text-2xl font-extrabold text-white mb-0.5">&lt; 48h</div>
+                                        <div class="text-xs text-slate-400 font-medium">Tempo Médio p/ Retorno</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="view-candidate" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-3">
+                    <div class="bg-white border border-slate-200 p-4 shadow-sm rounded-none sticky top-28">
+                        <span class="block text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-3 px-3">Estudante</span>
+                        <nav class="space-y-1">
+                            <button onclick="switchStudentTab('painel')" id="studentNav-painel" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold rounded-none transition bg-brand-600 text-white shadow-sm">
+                                <i class="fa-solid fa-table-cells-large text-xs w-4 text-accentYellow-400"></i> Painel
+                            </button>
+                            <button onclick="switchStudentTab('perfil')" id="studentNav-perfil" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50">
+                                <i class="fa-solid fa-user text-xs w-4 text-brand-600"></i> Meu perfil
+                            </button>
+                            <button onclick="switchStudentTab('vagas')" id="studentNav-vagas" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50">
+                                <i class="fa-solid fa-briefcase text-xs w-4 text-brand-600"></i> Vagas
+                            </button>
+                            <button onclick="switchStudentTab('candidaturas')" id="studentNav-candidaturas" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50">
+                                <i class="fa-solid fa-file-lines text-xs w-4 text-brand-600"></i> Minhas candidaturas
+                            </button>
+                            <button onclick="switchStudentTab('formacao')" id="studentNav-formacao" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50">
+                                <i class="fa-solid fa-graduation-cap text-xs w-4 text-brand-600"></i> Minha formação
+                            </button>
+                            <button onclick="switchStudentTab('vestibular')" id="studentNav-vestibular" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50">
+                                <i class="fa-solid fa-list-check text-xs w-4 text-brand-600"></i> Vestibular
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-9">
+                    <div id="studentPage-painel" class="student-page space-y-8">
+                        <div class="mb-2">
+                            <h1 class="text-3xl font-extrabold tracking-tight">Olá, <span id="candidateNameDisplay">Lucas Monteiro</span>!</h1>
+                            <p class="text-sm mt-1">Acompanhe sua jornada: documentação, formação, candidaturas e novas oportunidades.</p>
+                        </div>
+
+                        <div id="interviewAlertBox" class="p-5 bg-brand-600 rounded-none text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-none bg-white/10 flex items-center justify-center text-white text-lg shrink-0">
+                                    <i class="fa-solid fa-calendar-star text-accentYellow-400 animate-pulse"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-base flex items-center gap-2"><i class="fa-solid fa-bell text-accentYellow-400"></i> Alerta de Agente de Entrevista!</h3>
+                                    <p class="text-xs text-white/90">A empresa <span id="alertCompanyName" class="font-bold underline text-accentYellow-300">TechCorp</span> convidou você para uma entrevista online em <span class="font-bold">Quarta-feira, 15:00</span>.</p>
+                                </div>
+                            </div>
+                            <button onclick="confirmInterview()" class="px-5 py-2.5 bg-accentYellow-400 text-slate-950 font-extrabold rounded-none text-xs hover:bg-accentYellow-500 transition whitespace-nowrap flex items-center gap-2 shadow-md">
+                                <i class="fa-solid fa-circle-check text-emerald-800"></i> Confirmar Presença
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="bg-white p-6 border border-slate-200 shadow-sm flex flex-col justify-between rounded-none">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="w-10 h-10 bg-brand-50 text-brand-700 flex items-center justify-center rounded-none border border-brand-200"><i class="fa-solid fa-shield-halved text-base text-brand-600"></i></div>
+                                    <span class="text-[10px] uppercase tracking-wider font-semibold text-slate-400">Documentação</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold leading-snug">Cadastro aprovado</h3>
+                                    <p class="text-xs mt-1">Comprovação de perfil acadêmico</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 border border-slate-200 shadow-sm flex flex-col justify-between rounded-none">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="w-10 h-10 bg-brand-50 text-brand-700 flex items-center justify-center rounded-none border border-brand-200"><i class="fa-solid fa-file-lines text-base text-brand-600"></i></div>
+                                    <span class="text-[10px] uppercase tracking-wider font-semibold text-slate-400">Candidaturas</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-extrabold" id="candidateAppliedCountNum">2</h3>
+                                    <p class="text-xs mt-1">Vagas em que você se inscreveu</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 border border-slate-200 shadow-sm flex flex-col justify-between rounded-none">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="w-10 h-10 bg-brand-50 text-brand-700 flex items-center justify-center rounded-none border border-brand-200"><i class="fa-solid fa-graduation-cap text-base text-brand-600"></i></div>
+                                    <span class="text-[10px] uppercase tracking-wider font-semibold text-slate-400">Formação</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-extrabold">1</h3>
+                                    <p class="text-xs mt-1">Formação ativa no ecossistema</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 border border-slate-200 shadow-sm flex flex-col justify-between rounded-none">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="w-10 h-10 bg-brand-50 text-brand-700 flex items-center justify-center rounded-none border border-brand-200"><i class="fa-solid fa-chart-line text-base text-brand-600"></i></div>
+                                    <span class="text-[10px] uppercase tracking-wider font-semibold text-slate-400">Progresso</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-extrabold">62%</h3>
+                                    <p class="text-xs mt-1" id="candidateCourseSubtitle">Desenvolvimento Web Full Stack</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
+                                <h3 class="font-bold text-sm">Vagas recomendadas para o seu perfil</h3>
+                                <button onclick="switchStudentTab('vagas')" class="text-xs text-brand-600 font-semibold hover:underline">Ver todas</button>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4" id="recommendedJobsContainer"></div>
+                        </div>
+                    </div>
+
+                    <div id="studentPage-perfil" class="student-page hidden space-y-6">
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+                                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fa-solid fa-user-pen text-brand-600"></i> Meu Perfil Acadêmico e Profissional</h3>
+                            </div>
+                            <form id="candidateProfileForm" onsubmit="handleSaveCandidateProfile(event)" class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase mb-1">Nome Completo</label>
+                                        <input type="text" id="modalProfName" required class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase mb-1">E-mail Fucape</label>
+                                        <input type="email" id="modalProfEmail" required class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase mb-1">Curso Superior</label>
+                                        <input type="text" id="modalProfCourse" required class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase mb-1">Universidade / Instituição</label>
+                                        <input type="text" id="modalProfUniversity" required class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase mb-1">Resumo / Apresentação</label>
+                                    <textarea id="modalProfBio" rows="3" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase mb-1">Habilidades (separadas por vírgula)</label>
+                                    <input type="text" id="modalProfSkills" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                                </div>
+                                <button type="submit" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium text-xs rounded-none transition flex items-center gap-2 shadow-sm">
+                                    <i class="fa-solid fa-check text-accentYellow-400"></i> Salvar Alterações do Perfil
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="studentPage-vagas" class="student-page hidden space-y-6">
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+                                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fa-solid fa-briefcase text-brand-600"></i> Oportunidades e Vagas Disponíveis</h3>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4" id="studentVagasListContainer"></div>
+                        </div>
+                    </div>
+
+                    <div id="studentPage-candidaturas" class="student-page hidden space-y-6">
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                                <h3 class="font-bold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-timeline text-brand-600"></i> Suas Candidaturas Ativas
+                                </h3>
+                                <span id="appliedCountBadge" class="px-2.5 py-0.5 bg-brand-50 text-brand-700 text-xs font-semibold rounded-none border border-brand-200">0 vagas</span>
+                            </div>
+                            <div id="candidateAppliedList" class="space-y-4"></div>
+                        </div>
+                    </div>
+
+                    <div id="studentPage-formacao" class="student-page hidden space-y-6">
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <h3 class="font-bold text-base mb-4 flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-brand-600"></i> Minha jornada de formação acadêmica</h3>
+                            
+                            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
+                                <div class="p-3 border border-brand-500 bg-brand-50/50 rounded-none text-center">
+                                    <span class="block text-xs font-bold text-brand-700">1</span>
+                                    <span class="text-[11px] font-medium">inscrito</span>
+                                </div>
+                                <div class="p-3 border border-slate-200 bg-slate-50 rounded-none text-center opacity-70">
+                                    <span class="block text-xs font-bold">2</span>
+                                    <span class="text-[11px] font-medium">vestibular</span>
+                                </div>
+                                <div class="p-3 border border-slate-200 bg-slate-50 rounded-none text-center opacity-70">
+                                    <span class="block text-xs font-bold">3</span>
+                                    <span class="text-[11px] font-medium">aprovado</span>
+                                </div>
+                                <div class="p-3 border border-slate-200 bg-slate-50 rounded-none text-center opacity-70">
+                                    <span class="block text-xs font-bold">4</span>
+                                    <span class="text-[11px] font-medium">matriculado</span>
+                                </div>
+                                <div class="p-3 border border-slate-200 bg-slate-50 rounded-none text-center opacity-70">
+                                    <span class="block text-xs font-bold">5</span>
+                                    <span class="text-[11px] font-medium">em andamento</span>
+                                </div>
+                            </div>
+
+                            <div class="p-5 border border-slate-200 bg-white shadow-sm rounded-none">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                                    <div>
+                                        <h4 class="font-bold text-base" id="activeCourseTitle">Desenvolvimento Web Full Stack</h4>
+                                        <p class="text-xs" id="activeCourseInst">Fucape Business School • Instituto Horizonte</p>
+                                    </div>
+                                    <span class="px-3 py-1 bg-brand-50 text-brand-700 text-xs font-semibold rounded-none border border-brand-200 w-max flex items-center gap-1.5">
+                                        <i class="fa-solid fa-spinner animate-spin text-[10px] text-brand-600"></i> Em andamento
+                                    </span>
+                                </div>
+
+                                <div class="w-full bg-slate-100 h-2.5 rounded-none overflow-hidden mb-4">
+                                    <div class="bg-brand-600 h-full w-[62%]"></div>
+                                </div>
+
+                                <div class="flex flex-wrap items-center justify-between text-xs mb-5 pt-2 border-t border-slate-100">
+                                    <span>Progresso: <strong class="font-bold">62%</strong></span>
+                                    <span>Frequência: <strong class="font-bold">94%</strong></span>
+                                    <span>Média: <strong class="font-bold">8.4</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="studentPage-vestibular" class="student-page hidden space-y-6">
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <h3 class="font-bold text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-list-check text-brand-600"></i> Vestibular e Processos Seletivos Acadêmicos</h3>
+                            <p class="text-xs mb-6">Acompanhe suas inscrições e agendamentos de provas e avaliações institucionais.</p>
+                            
+                            <div class="p-5 border border-slate-200 bg-slate-50 rounded-none space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-sm">Processo Seletivo Fucape 2026/1</span>
+                                    <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">Aprovado</span>
+                                </div>
+                                <p class="text-xs">Inscrição validada e histórico acadêmico conferido pela banca examinadora.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-company" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-3">
+                    <div class="bg-white border border-slate-200 p-4 shadow-sm rounded-none sticky top-28">
+                        <span class="block text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-3 px-3">Empresa / Recrutador</span>
+                        <nav class="space-y-1">
+                            <button onclick="switchCompanyTab('painel')" id="companyNav-painel" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold rounded-none transition bg-brand-600 text-white shadow-sm">
+                                <i class="fa-solid fa-table-cells-large text-xs w-4 text-accentYellow-400"></i> Painel Geral
+                            </button>
+                            <button onclick="switchCompanyTab('perfil')" id="companyNav-perfil" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50">
+                                <i class="fa-solid fa-building text-xs w-4 text-brand-600"></i> Perfil da Empresa
+                            </button>
+                            <button onclick="switchCompanyTab('vagas')" id="companyNav-vagas" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50">
+                                <i class="fa-solid fa-briefcase text-xs w-4 text-brand-600"></i> Vagas Publicadas
+                            </button>
+                            <button onclick="switchCompanyTab('nova-vaga')" id="companyNav-nova-vaga" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50">
+                                <i class="fa-solid fa-plus-circle text-xs w-4 text-brand-600"></i> Cadastrar Nova Vaga
+                            </button>
+                            <button onclick="switchCompanyTab('candidatos')" id="companyNav-candidatos" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50">
+                                <i class="fa-solid fa-users text-xs w-4 text-brand-600"></i> Analisar Candidatos
+                            </button>
+                            <button onclick="switchCompanyTab('entrevistas')" id="companyNav-entrevistas" class="w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50">
+                                <i class="fa-solid fa-calendar-check text-xs w-4 text-brand-600"></i> Entrevistas Agendadas
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-9">
+                    <div id="companyPage-painel" class="company-page space-y-8">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
+                            <div>
+                                <h1 class="text-3xl font-extrabold tracking-tight">Painel da Empresa (<span id="companyNameHeader">TechCorp</span>)</h1>
+                                <p class="text-sm mt-1">Gerencie suas vagas ativas, acompanhe candidatos inscritos e agende processos seletivos.</p>
+                            </div>
+                            <button onclick="switchCompanyTab('nova-vaga')" class="px-5 py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-none transition text-xs flex items-center gap-2 shadow-sm w-max">
+                                <i class="fa-solid fa-plus text-accentYellow-400"></i> Cadastrar Nova Vaga
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="bg-white p-6 border border-slate-200 shadow-sm flex flex-col justify-between rounded-none">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="w-10 h-10 bg-brand-50 text-brand-700 flex items-center justify-center rounded-none border border-brand-200"><i class="fa-solid fa-briefcase text-base text-brand-600"></i></div>
+                                    <span class="text-[10px] uppercase tracking-wider font-semibold text-slate-400">Vagas Ativas</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-extrabold" id="companyActiveJobsCount">6</h3>
+                                    <p class="text-xs mt-1">Oportunidades publicadas</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 border border-slate-200 shadow-sm flex flex-col justify-between rounded-none">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="w-10 h-10 bg-brand-50 text-brand-700 flex items-center justify-center rounded-none border border-brand-200"><i class="fa-solid fa-users text-base text-brand-600"></i></div>
+                                    <span class="text-[10px] uppercase tracking-wider font-semibold text-slate-400">Candidatos</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-extrabold" id="companyTotalApplicantsNum">2</h3>
+                                    <p class="text-xs mt-1">Estudantes inscritos</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 border border-slate-200 shadow-sm flex flex-col justify-between rounded-none">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="w-10 h-10 bg-brand-50 text-brand-700 flex items-center justify-center rounded-none border border-brand-200"><i class="fa-solid fa-calendar-star text-base text-brand-600"></i></div>
+                                    <span class="text-[10px] uppercase tracking-wider font-semibold text-slate-400">Entrevistas</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-2xl font-extrabold">1</h3>
+                                    <p class="text-xs mt-1">Agendadas com talentos</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 border border-slate-200 shadow-sm flex flex-col justify-between rounded-none">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="w-10 h-10 bg-brand-50 text-brand-700 flex items-center justify-center rounded-none border border-brand-200"><i class="fa-solid fa-clock text-base text-brand-600"></i></div>
+                                    <span class="text-[10px] uppercase tracking-wider font-semibold text-slate-400">Prazo de Retorno</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold leading-snug text-emerald-600">Em dia (&lt;48h)</h3>
+                                    <p class="text-xs mt-1">Conformidade com SLA</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
+                                <h3 class="font-bold text-sm">Suas Vagas Publicadas Recentemente</h3>
+                                <button onclick="switchCompanyTab('vagas')" class="text-xs text-brand-600 font-semibold hover:underline">Ver todas</button>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4" id="companyRecentJobsContainer"></div>
+                        </div>
+                    </div>
+
+                    <div id="companyPage-perfil" class="company-page hidden space-y-6">
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+                                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fa-solid fa-building text-brand-600"></i> Configurações da Empresa</h3>
+                            </div>
+                            <form id="companyProfileForm" onsubmit="handleSaveCompanyProfile(event)" class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase mb-1">Nome da Empresa</label>
+                                        <input type="text" id="modalCompName" required class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase mb-1">Setor / Indústria</label>
+                                        <input type="text" id="modalCompSector" required class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm" value="Tecnologia & Inovação">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase mb-1">Descrição Institucional</label>
+                                    <textarea id="modalCompDesc" rows="3" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">Líder em desenvolvimento de soluções tecnológicas e inovação para o mercado corporativo.</textarea>
+                                </div>
+                                <button type="submit" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium text-xs rounded-none transition flex items-center gap-2 shadow-sm">
+                                    <i class="fa-solid fa-check text-accentYellow-400"></i> Salvar Dados da Empresa
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="companyPage-vagas" class="company-page hidden space-y-6">
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+                                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fa-solid fa-briefcase text-brand-600"></i> Gerenciamento de Vagas</h3>
+                                <button onclick="switchCompanyTab('nova-vaga')" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-medium rounded-none transition flex items-center gap-2 shadow-sm">
+                                    <i class="fa-solid fa-plus text-accentYellow-400"></i> Nova Vaga
+                                </button>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-6" id="companyJobsList"></div>
+                        </div>
+                    </div>
+
+                    <div id="companyPage-nova-vaga" class="company-page hidden space-y-6">
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
+                                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fa-solid fa-plus-circle text-brand-600"></i> Cadastrar Nova Vaga no Portal</h3>
+                                <button onclick="switchCompanyTab('vagas')" class="text-xs text-brand-600 font-semibold hover:underline flex items-center gap-1">
+                                    <i class="fa-solid fa-arrow-left"></i> Voltar para Vagas
+                                </button>
+                            </div>
+                            <form id="newJobFormFull" onsubmit="handleCreateJobFull(event)" class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase mb-1">Título da Vaga</label>
+                                    <input type="text" id="newJobTitleFull" required placeholder="Ex: Desenvolvedor Front-end Estágio" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase mb-1">Empresa</label>
+                                        <input type="text" id="newJobCompanyFull" required placeholder="Ex: TechCorp" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm" value="TechCorp">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase mb-1">Categoria</label>
+                                        <select id="newJobCategoryFull" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm bg-white">
+                                            <option value="Tecnologia">Tecnologia</option>
+                                            <option value="Marketing">Marketing</option>
+                                            <option value="Finanças">Finanças</option>
+                                            <option value="Design">Design</option>
+                                            <option value="Engenharia">Engenharia</option>
+                                            <option value="Comercial">Comercial</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase mb-1">Localização</label>
+                                        <input type="text" id="newJobLocationFull" required placeholder="Ex: São Paulo / Híbrido" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold uppercase mb-1">Bolsa / Salário</label>
+                                        <input type="text" id="newJobSalaryFull" required placeholder="Ex: R$ 2.200" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase mb-1">Descrição da Vaga</label>
+                                    <textarea id="newJobDescFull" rows="4" required placeholder="Requisitos e responsabilidades..." class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm"></textarea>
+                                </div>
+                                <button type="submit" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-none transition text-xs flex items-center gap-2 shadow-sm">
+                                    <i class="fa-solid fa-paper-plane text-accentYellow-400"></i> Publicar Vaga no Portal
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="companyPage-candidatos" class="company-page hidden space-y-6">
+                        <div class="bg-white border border-slate-200 shadow-sm">
+                            <div class="p-5 border-b border-slate-200 flex items-center justify-between">
+                                <h3 class="font-bold text-base flex items-center gap-2"><i class="fa-solid fa-user-graduate text-brand-600"></i> Estudantes Inscritos nas Suas Vagas</h3>
+                                <span class="text-xs">Prazo obrigatório de retorno: 10 dias corridos</span>
+                            </div>
+                            <div class="divide-y divide-slate-200" id="companyCandidatesList"></div>
+                        </div>
+                    </div>
+
+                    <div id="companyPage-entrevistas" class="company-page hidden space-y-6">
+                        <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                            <h3 class="font-bold text-lg mb-2 flex items-center gap-2"><i class="fa-solid fa-calendar-check text-brand-600"></i> Entrevistas e Conversas Agendadas</h3>
+                            <p class="text-xs mb-6">Acompanhe os horários marcados com os candidatos selecionados.</p>
+                            
+                            <div class="p-5 border border-slate-200 bg-slate-50 rounded-none space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-sm">Entrevista com Lucas Monteiro (Desenvolvimento Web Full Stack)</span>
+                                    <span class="px-2.5 py-1 bg-brand-50 text-brand-700 text-xs font-semibold border border-brand-200">Quarta-feira, 15:00</span>
+                                </div>
+                                <p class="text-xs text-slate-600">Link da sala de vídeo e histórico de chat prontos para o recrutador.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div id="jobModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-none max-w-xl w-full p-6 shadow-xl relative border border-slate-200">
+            <button onclick="closeJobModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-7 h-7 rounded-none bg-slate-100 flex items-center justify-center text-xs transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="jobModalContent"></div>
+        </div>
+    </div>
+
+    <div id="authModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-none max-w-sm w-full p-6 shadow-xl relative text-center border border-slate-200">
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-7 h-7 rounded-none bg-slate-100 flex items-center justify-center text-xs transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="authModalIcon" class="w-14 h-14 rounded-none bg-brand-50 text-brand-700 flex items-center justify-center text-xl mx-auto mb-3 border border-brand-200">
+                <i class="fa-solid fa-user text-brand-600"></i>
+            </div>
+            <h3 id="authModalTitle" class="text-xl font-bold mb-1">Acesso Estudante</h3>
+            <p id="authModalSub" class="text-xs mb-5">Entre para gerenciar suas candidaturas e currículo.</p>
+            
+            <div class="space-y-3">
+                <input type="email" id="authEmail" placeholder="seu.email@fucape.br" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                <input type="password" id="authPass" placeholder="Sua senha" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                <button onclick="executeLogin()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-none transition text-sm flex items-center justify-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-right-to-bracket text-accentYellow-400"></i> Entrar no Painel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="resumeModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-none max-w-md w-full p-6 shadow-xl relative border border-slate-200">
+            <button onclick="closeResumeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-7 h-7 rounded-none bg-slate-100 flex items-center justify-center text-xs transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold mb-1 flex items-center gap-2"><i class="fa-solid fa-file-arrow-up text-brand-600"></i> Envio de Currículo</h3>
+            <p class="text-xs mb-5">Faça o upload do seu currículo em PDF (até 5MB) para validação da curadoria Fucape.</p>
+            <div class="border border-dashed border-slate-300 rounded-none p-6 text-center hover:border-brand-500 transition cursor-pointer mb-5 bg-slate-50" onclick="alertResumeSuccess()">
+                <div class="w-10 h-10 rounded-none bg-brand-100 text-brand-700 flex items-center justify-center mx-auto mb-2 text-base">
+                    <i class="fa-solid fa-cloud-arrow-up text-brand-600"></i>
+                </div>
+                <span class="font-semibold block text-xs">Clique para enviar arquivo PDF</span>
+                <span class="text-[10px]">PDF de até 5MB</span>
+            </div>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold uppercase mb-1">Link do LinkedIn / Portfólio</label>
+                    <input type="text" id="resumeLink" placeholder="https://linkedin.com/in/seu-perfil" class="w-full px-3.5 py-2.5 rounded-none border border-slate-300 text-sm">
+                </div>
+                <button onclick="closeResumeModal()" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-none transition text-sm flex items-center justify-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-check text-accentYellow-400"></i> Salvar e Enviar para Curadoria
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="candidateDetailModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-none max-w-xl w-full p-6 shadow-xl relative border border-slate-200">
+            <button onclick="closeCandidateDetailModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-7 h-7 rounded-none bg-slate-100 flex items-center justify-center text-xs transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="candidateDetailContent"></div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3 rounded-none shadow-lg flex items-center gap-3 text-xs font-medium border border-slate-800">
+        <i class="fa-solid fa-circle-check text-accentYellow-400 text-base"></i>
+        <span id="toastMsg">Ação realizada com sucesso!</span>
+    </div>
+
+    <footer class="bg-slate-900 text-white py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div class="flex items-center gap-3">
+                <img src="img/logo-talent-point-b.png" alt="TalentPoint Logo" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x35/2563eb/ffffff?text=TalentPoint';">
+                <span class="text-white font-semibold text-sm">&copy; 2026</span>
+            </div>
+            <p class="text-xs text-slate-300 flex flex-col items-center md:items-start gap-1">
+                <span>&copy; 2026 TalentPoint by Talent Hub. Todos os direitos reservados.</span>
+                <span class="text-slate-300 font-medium">Fucape Business School - Vitória, ES</span>
+            </p>
+            <div class="flex gap-6 text-xs text-slate-300">
+                <a href="#" class="hover:text-white transition flex items-center gap-1"><i class="fa-solid fa-file-contract text-xs text-accentYellow-400"></i> Termos</a>
+                <a href="#" class="hover:text-white transition flex items-center gap-1"><i class="fa-solid fa-shield-halved text-xs text-accentYellow-400"></i> Privacidade</a>
+                <a href="#" class="hover:text-white transition flex items-center gap-1"><i class="fa-solid fa-headset text-xs text-accentYellow-400"></i> Suporte</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let jobsData = [
+            { id: 1, title: 'Estágio em Desenvolvimento Frontend', company: 'TechCorp', category: 'Tecnologia', location: 'São Paulo (Híbrido)', salary: 'R$ 2.200', desc: 'Buscamos estudantes de Ciência da Computação ou afins apaixonados por React, Tailwind e interfaces modernas.', applicants: 12, status: 'Em Análise' },
+            { id: 2, title: 'Analista de Marketing Digital Jr', company: 'GrowthMedia', category: 'Marketing', location: 'Remoto', salary: 'R$ 2.500', desc: 'Gestão de tráfego pago, SEO e campanhas sociais para marcas líderes no e-commerce.', applicants: 8, status: 'Ativa' },
+            { id: 3, title: 'Estágio em Finanças Corporativas', company: 'CapitalInvest', category: 'Finanças', location: 'Rio de Janeiro (Presencial)', salary: 'R$ 2.000', desc: 'Apoio em modelagem financeira, valuation e relatórios de mercado para o setor de investimentos.', applicants: 15, status: 'Entrevista Agendada' },
+            { id: 4, title: 'UX/UI Designer Júnior', company: 'DesignHub', category: 'Design', location: 'Florianópolis (Híbrido)', salary: 'R$ 2.400', desc: 'Criação de wireframes, testes de usabilidade e protótipos de alta fidelidade no Figma.', applicants: 6, status: 'Ativa' },
+            { id: 5, title: 'Engenheiro de Dados Trainee', company: 'DataScale', category: 'Tecnologia', location: 'São Paulo (Remoto)', salary: 'R$ 3.500', desc: 'Construção de pipelines de dados em Python, SQL e Cloud AWS para grandes volumes de informação.', applicants: 20, status: 'Ativa' },
+            { id: 6, title: 'Assistente Comercial B2B', company: 'SalesPro', category: 'Comercial', location: 'Curitiba (Presencial)', salary: 'R$ 1.800', desc: 'Prospecção ativa de clientes corporativos e suporte ao time de contas estratégicas.', applicants: 9, status: 'Ativa' }
+        ];
+
+        let categoriesData = [
+            { name: 'Tecnologia', icon: 'fa-code', count: '450 vagas' },
+            { name: 'Marketing', icon: 'fa-bullhorn', count: '210 vagas' },
+            { name: 'Finanças', icon: 'fa-chart-pie', count: '180 vagas' },
+            { name: 'Design', icon: 'fa-pen-nib', count: '95 vagas' },
+            { name: 'Engenharia', icon: 'fa-gears', count: '140 vagas' },
+            { name: 'Comercial', icon: 'fa-handshake', count: '320 vagas' }
+        ];
+
+        let appliedJobs = [1, 3];
+        let candidateProfile = {
+            name: 'Lucas Monteiro',
+            email: 'lucas.monteiro@fucape.br',
+            course: 'Desenvolvimento Web Full Stack',
+            university: 'Fucape Business School',
+            skills: ['React', 'JavaScript', 'Tailwind', 'Git']
+        };
+
+        let companyProfile = {
+            name: 'TechCorp',
+            sector: 'Tecnologia & Inovação',
+            desc: 'Líder en desenvolvimento de soluções tecnológicas e inovação para o mercado corporativo.'
+        };
+
+        let currentAuthType = 'candidate';
+        let isLoggedIn = false;
+        let hasNotification = true;
+        let pendingJobApplyId = null;
+
+        window.onload = function() {
+            renderCategories();
+            renderJobs(jobsData);
+            renderCandidateApplied();
+            renderRecommendedJobs();
+            renderStudentVagasPage();
+            renderCompanyJobs();
+            renderCompanyCandidates();
+            renderCompanyRecentJobs();
+            populateCandidateProfileForm();
+            populateCompanyProfileForm();
+            updateAuthNav();
+        };
+
+        function updateAuthNav() {
+            const container = document.getElementById('authNavContainer');
+            if (!container) return;
+
+            if (!isLoggedIn) {
+                container.innerHTML = `
+                    <button onclick="openAuthModal('candidate')" class="px-4 py-2 text-sm font-medium text-brand-700 hover:bg-brand-50 rounded-none transition flex items-center gap-2 border border-brand-200 shadow-sm">
+                        <i class="fa-solid fa-user text-xs text-accentYellow-500"></i> Sou Estudante
+                    </button>
+                    <button onclick="openAuthModal('company')" class="px-4 py-2 text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 rounded-none transition flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-building text-xs text-accentYellow-400"></i> Para Empresas
+                    </button>
+                `;
+            } else {
+                const name = currentAuthType === 'candidate' ? candidateProfile.name : companyProfile.name;
+                const icon = currentAuthType === 'candidate' ? 'fa-user-graduate' : 'fa-building';
+                const profileTab = currentAuthType === 'candidate' ? "switchView('candidate'); switchStudentTab('perfil');" : "switchView('company'); switchCompanyTab('perfil');";
+                const panelTab = currentAuthType === 'candidate' ? "switchView('candidate'); switchStudentTab('painel');" : "switchView('company'); switchCompanyTab('painel');";
+
+                container.innerHTML = `
+                    <div class="relative group">
+                        <button class="px-4 py-2 text-sm font-semibold text-brand-800 bg-brand-50 hover:bg-brand-100 rounded-none transition flex items-center gap-2 border border-brand-300 shadow-sm">
+                            <i class="fa-solid ${icon} text-accentYellow-500"></i> <span>${name}</span> <i class="fa-solid fa-chevron-down text-xs text-slate-500"></i>
+                        </button>
+                        <div class="absolute right-0 mt-1 w-48 bg-white border border-slate-200 shadow-lg hidden group-hover:block z-50">
+                            <div class="p-2 border-b border-slate-100 text-[11px] text-slate-500 font-semibold uppercase">Conta ${currentAuthType === 'candidate' ? 'Estudante' : 'Empresa'}</div>
+                            <button onclick="${panelTab}" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-50 flex items-center gap-2 font-medium"><i class="fa-solid fa-table-cells-large text-brand-600"></i> Meu Painel</button>
+                            <button onclick="${profileTab}" class="w-full text-left px-4 py-2 text-xs hover:bg-slate-50 flex items-center gap-2 font-medium"><i class="fa-solid fa-user-gear text-brand-600"></i> Editar Perfil</button>
+                            <button onclick="executeLogout()" class="w-full text-left px-4 py-2 text-xs hover:bg-red-50 text-red-600 flex items-center gap-2 font-medium border-t border-slate-100"><i class="fa-solid fa-right-from-bracket"></i> Sair da Conta</button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function executeLogout() {
+            isLoggedIn = false;
+            updateAuthNav();
+            switchView('landing');
+            showToast('Você saiu da sua conta com sucesso.');
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('categoriesGrid');
+            if (!container) return;
+            container.innerHTML = categoriesData.map(cat => `
+                <div onclick="filterCategory('${cat.name}')" class="p-6 text-center hover:bg-slate-50 transition cursor-pointer flex flex-col items-center justify-center group bg-white">
+                    <div class="w-12 h-12 rounded-none bg-brand-50 text-brand-700 flex items-center justify-center text-xl mb-3 group-hover:bg-brand-600 group-hover:text-white transition border border-brand-200">
+                        <i class="fa-solid ${cat.icon} text-brand-600 group-hover:text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-sm mb-1">${cat.name}</h3>
+                    <span class="text-xs text-slate-500 font-medium">${cat.count}</span>
+                </div>
+            `).join('');
+        }
+
+        function populateCandidateProfileForm() {
+            const nameEl = document.getElementById('modalProfName');
+            const emailEl = document.getElementById('modalProfEmail');
+            const courseEl = document.getElementById('modalProfCourse');
+            const univEl = document.getElementById('modalProfUniversity');
+            const bioEl = document.getElementById('modalProfBio');
+            const skillsEl = document.getElementById('modalProfSkills');
+
+            if (nameEl) nameEl.value = candidateProfile.name;
+            if (emailEl) emailEl.value = candidateProfile.email;
+            if (courseEl) courseEl.value = candidateProfile.course;
+            if (univEl) univEl.value = candidateProfile.university;
+            if (bioEl) bioEl.value = "Estudante dedicado com foco em desenvolvimento web frontend e tecnologias modernas.";
+            if (skillsEl) skillsEl.value = candidateProfile.skills.join(', ');
+
+            const nameDisplay = document.getElementById('candidateNameDisplay');
+            if (nameDisplay) nameDisplay.innerText = candidateProfile.name;
+        }
+
+        function handleSaveCandidateProfile(event) {
+            event.preventDefault();
+            candidateProfile.name = document.getElementById('modalProfName').value;
+            candidateProfile.email = document.getElementById('modalProfEmail').value;
+            candidateProfile.course = document.getElementById('modalProfCourse').value;
+            candidateProfile.university = document.getElementById('modalProfUniversity').value;
+            candidateProfile.skills = document.getElementById('modalProfSkills').value.split(',').map(s => s.trim());
+
+            const nameDisplay = document.getElementById('candidateNameDisplay');
+            if (nameDisplay) nameDisplay.innerText = candidateProfile.name;
+
+            const courseSub = document.getElementById('candidateCourseSubtitle');
+            if (courseSub) courseSub.innerText = candidateProfile.course;
+
+            const activeCourseTitle = document.getElementById('activeCourseTitle');
+            if (activeCourseTitle) activeCourseTitle.innerText = candidateProfile.course;
+
+            updateAuthNav();
+            showToast('Perfil acadêmico atualizado com sucesso!');
+        }
+
+        function switchStudentTab(tabName) {
+            const pages = document.querySelectorAll('.student-page');
+            pages.forEach(p => p.classList.add('hidden'));
+
+            const navBtns = document.querySelectorAll('[id^="studentNav-"]');
+            navBtns.forEach(btn => {
+                btn.className = 'w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50';
+            });
+
+            const targetPage = document.getElementById(`studentPage-${tabName}`);
+            if (targetPage) targetPage.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`studentNav-${tabName}`);
+            if (activeBtn) {
+                activeBtn.className = 'w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold rounded-none transition bg-brand-600 text-white shadow-sm';
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function populateCompanyProfileForm() {
+            const nameInput = document.getElementById('modalCompName');
+            if (nameInput) nameInput.value = companyProfile.name;
+            const headerEl = document.getElementById('companyNameHeader');
+            if (headerEl) headerEl.innerText = companyProfile.name;
+        }
+
+        function handleSaveCompanyProfile(event) {
+            event.preventDefault();
+            companyProfile.name = document.getElementById('modalCompName').value;
+            companyProfile.sector = document.getElementById('modalCompSector').value;
+            populateCompanyProfileForm();
+            updateAuthNav();
+            showToast('Perfil da empresa atualizado com sucesso!');
+        }
+
+        function switchCompanyTab(tabName) {
+            const pages = document.querySelectorAll('.company-page');
+            pages.forEach(p => p.classList.add('hidden'));
+
+            const navBtns = document.querySelectorAll('[id^="companyNav-"]');
+            navBtns.forEach(btn => {
+                btn.className = 'w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-medium rounded-none transition hover:bg-slate-50';
+            });
+
+            const targetPage = document.getElementById(`companyPage-${tabName}`);
+            if (targetPage) targetPage.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`companyNav-${tabName}`);
+            if (activeBtn) {
+                activeBtn.className = 'w-full flex items-center gap-3 px-3.5 py-2.5 text-xs font-semibold rounded-none transition bg-brand-600 text-white shadow-sm';
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchView(viewName) {
+            document.getElementById('view-landing').classList.add('hidden');
+            document.getElementById('view-candidate').classList.add('hidden');
+            document.getElementById('view-company').classList.add('hidden');
+
+            if (viewName === 'landing') {
+                document.getElementById('view-landing').classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (viewName === 'candidate') {
+                document.getElementById('view-candidate').classList.remove('hidden');
+                switchStudentTab('painel');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (viewName === 'company') {
+                document.getElementById('view-company').classList.remove('hidden');
+                switchCompanyTab('painel');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function renderCompanyRecentJobs() {
+            const container = document.getElementById('companyRecentJobsContainer');
+            if (!container) return;
+            const recs = jobsData.slice(0, 4);
+            container.innerHTML = recs.map(job => `
+                <div class="p-3 border border-slate-200 hover:border-brand-300 transition cursor-pointer bg-white rounded-none" onclick="switchCompanyTab('vagas')">
+                    <h4 class="font-bold text-xs mb-0.5 line-clamp-1">${job.title}</h4>
+                    <p class="text-[11px] text-slate-500 line-clamp-1">${job.location} • ${job.applicants} candidatos</p>
+                </div>
+            `).join('');
+        }
+
+        function renderJobs(jobs) {
+            const container = document.getElementById('jobShowcaseContainer');
+            if (!container) return;
+            if (jobs.length === 0) {
+                container.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 text-sm flex items-center justify-center gap-2"><i class="fa-solid fa-circle-exclamation text-brand-600"></i> Nenhuma vaga encontrada para esta categoria ou busca.</div>`;
+                return;
+            }
+            container.innerHTML = jobs.map(job => {
+                return `
+                    <div class="p-6 transition flex flex-col justify-between border border-slate-200 bg-white shadow-sm">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="px-2.5 py-0.5 bg-brand-50 text-brand-700 text-xs font-semibold rounded-none border border-brand-200">${job.category}</span>
+                                <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-none flex items-center gap-1"><i class="fa-solid fa-location-dot text-brand-600"></i> ${job.location}</span>
+                            </div>
+                            <h3 class="font-bold text-base mb-1">${job.title}</h3>
+                            <p class="text-xs text-slate-500 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-building text-brand-600"></i> ${job.company}</p>
+                            <p class="text-xs text-slate-600 line-clamp-2 mb-6 font-normal leading-relaxed">${job.desc}</p>
+                        </div>
+                        <div class="flex items-center gap-2 pt-4 border-t border-slate-100">
+                            <button onclick="openJobModal(${job.id})" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 font-medium rounded-none text-xs transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-eye text-brand-600"></i> Detalhes
+                            </button>
+                            <button onclick="handleHomepageApply(${job.id})" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-none text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-paper-plane text-accentYellow-400"></i> Candidatar-se
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function handleHomepageApply(jobId) {
+            pendingJobApplyId = jobId;
+            if (!isLoggedIn) {
+                openAuthModal('candidate');
+                showToast('Por favor, faça login como estudante para se candidatar!');
+            } else {
+                if (currentAuthType === 'candidate') {
+                    if (!appliedJobs.includes(jobId)) {
+                        appliedJobs.push(jobId);
+                        const job = jobsData.find(j => j.id === jobId);
+                        showToast(`Candidatura enviada com sucesso para ${job.company}!`);
+                        renderCandidateApplied();
+                        renderCompanyCandidates();
+                    }
+                    switchView('candidate');
+                    switchStudentTab('candidaturas');
+                } else {
+                    showToast('Você está logado como Empresa. Troque para uma conta de Estudante para se candidatar.');
+                    openAuthModal('candidate');
+                }
+            }
+        }
+
+        function renderStudentVagasPage() {
+            const container = document.getElementById('studentVagasListContainer');
+            if (!container) return;
+            container.innerHTML = jobsData.map(job => {
+                const isApplied = appliedJobs.includes(job.id);
+                return `
+                    <div class="p-5 border border-slate-200 bg-white shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2 py-0.5 bg-brand-50 text-brand-700 text-[10px] font-semibold border border-brand-200">${job.category}</span>
+                                <span class="text-[11px] text-slate-500"><i class="fa-solid fa-location-dot text-brand-600"></i> ${job.location}</span>
+                            </div>
+                            <h4 class="font-bold text-sm mb-1">${job.title}</h4>
+                            <p class="text-xs text-slate-500 mb-2">${job.company} • <span class="font-semibold">${job.salary}</span></p>
+                            <p class="text-xs text-slate-600 line-clamp-2 mb-4">${job.desc}</p>
+                        </div>
+                        <div class="flex gap-2 pt-3 border-t border-slate-100">
+                            <button onclick="openJobModal(${job.id})" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 font-medium text-xs transition">Detalhes</button>
+                            <button onclick="toggleApply(${job.id}); renderStudentVagasPage();" class="flex-1 py-2 ${isApplied ? 'bg-emerald-600 text-white' : 'bg-brand-600 hover:bg-brand-700 text-white'} font-medium text-xs transition shadow-sm">
+                                ${isApplied ? 'Candidatado ✓' : 'Candidatar-se'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderRecommendedJobs() {
+            const container = document.getElementById('recommendedJobsContainer');
+            if (!container) return;
+            const recs = jobsData.slice(0, 4);
+            container.innerHTML = recs.map(job => `
+                <div onclick="openJobModal(${job.id})" class="p-3 border border-slate-200 hover:border-brand-300 transition cursor-pointer bg-white rounded-none">
+                    <h4 class="font-bold text-xs mb-0.5 line-clamp-1">${job.title}</h4>
+                    <p class="text-[11px] text-slate-500 line-clamp-1">${job.company} • ${job.location}</p>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(catName) {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === catName) {
+                    btn.className = 'px-4 py-2 rounded-none text-sm font-medium bg-brand-600 text-white category-btn whitespace-nowrap shadow-sm';
+                } else {
+                    btn.className = 'px-4 py-2 rounded-none text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 category-btn whitespace-nowrap';
+                }
+            });
+
+            if (catName === 'Todas') {
+                renderJobs(jobsData);
+            } else {
+                const filtered = jobsData.filter(j => j.category === catName);
+                renderJobs(filtered);
+            }
+        }
+
+        function toggleApply(jobId) {
+            const index = appliedJobs.indexOf(jobId);
+            const job = jobsData.find(j => j.id === jobId);
+            if (index > -1) {
+                appliedJobs.splice(index, 1);
+                showToast(`Candidatura cancelada para ${job.title}`);
+            } else {
+                appliedJobs.push(jobId);
+                showToast(`Currículo enviado com sucesso para ${job.company}!`);
+            }
+            renderJobs(jobsData);
+            renderCandidateApplied();
+            renderCompanyCandidates();
+        }
+
+        function renderCandidateApplied() {
+            const container = document.getElementById('candidateAppliedList');
+            const badge = document.getElementById('appliedCountBadge');
+            const countNum = document.getElementById('candidateAppliedCountNum');
+            if (badge) badge.innerText = `${appliedJobs.length} vagas`;
+            if (countNum) countNum.innerText = appliedJobs.length;
+
+            if (!container) return;
+            if (appliedJobs.length === 0) {
+                container.innerHTML = `<p class="text-slate-400 text-xs py-4 flex items-center gap-2"><i class="fa-solid fa-circle-info text-brand-600"></i> Você ainda não se candidatou a nenhuma vaga. Explore a vitrine e candidate-se!</p>`;
+                return;
+            }
+
+            container.innerHTML = appliedJobs.map(id => {
+                const job = jobsData.find(j => j.id === id);
+                if (!job) return '';
+                return `
+                    <div class="p-4 bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-none bg-brand-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+                                ${job.company.substring(0, 2).toUpperCase()}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs">${job.title}</h4>
+                                <p class="text-[11px] text-slate-500 mt-0.5">${job.company} • Prazo de retorno ativo • <span class="text-brand-600 font-semibold">${job.status}</span></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="openJobModal(${job.id})" class="text-xs font-medium bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-none transition flex items-center gap-1">
+                                <i class="fa-solid fa-eye text-xs text-brand-600"></i> Detalhes
+                            </button>
+                            <button onclick="toggleApply(${job.id})" class="text-xs font-medium text-red-600 hover:bg-red-50 px-3 py-1.5 rounded-none transition flex items-center gap-1">
+                                <i class="fa-solid fa-trash-can text-xs"></i> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderCompanyJobs() {
+            const container = document.getElementById('companyJobsList');
+            if (!container) return;
+            container.innerHTML = jobsData.map(job => `
+                <div class="p-5 flex flex-col justify-between border border-slate-200 bg-white shadow-sm">
+                    <div>
+                        <span class="px-2.5 py-0.5 bg-brand-50 text-brand-700 text-[10px] font-semibold rounded-none border border-brand-200">${job.category}</span>
+                        <h4 class="font-bold text-sm mt-2.5 mb-1">${job.title}</h4>
+                        <p class="text-[11px] text-slate-500 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-brand-600"></i> ${job.location} • <i class="fa-solid fa-wallet ml-1 text-brand-600"></i> ${job.salary}</p>
+                        <p class="text-xs text-slate-600 line-clamp-2">${job.desc}</p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <span class="flex items-center gap-1"><i class="fa-solid fa-users text-brand-600"></i> ${job.applicants} Candidatos</span>
+                        <button onclick="switchCompanyTab('candidatos')" class="text-brand-600 font-medium hover:underline flex items-center gap-1"><i class="fa-solid fa-arrow-right"></i> Analisar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCompanyCandidates() {
+            const container = document.getElementById('companyCandidatesList');
+            const countEl = document.getElementById('companyCandidateCount');
+            if (countEl) countEl.innerText = appliedJobs.length;
+
+            if (!container) return;
+            if (appliedJobs.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-slate-400 text-xs flex items-center justify-center gap-2"><i class="fa-solid fa-circle-info text-brand-600"></i> Nenhum candidato inscrito nas suas vagas no momento.</div>`;
+                return;
+            }
+
+            container.innerHTML = appliedJobs.map(id => {
+                const job = jobsData.find(j => j.id === id);
+                return `
+                    <div class="p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-none bg-slate-100 flex items-center justify-center font-bold text-xs border border-slate-300">
+                                LM
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs">${candidateProfile.name}</h4>
+                                <p class="text-[11px] text-slate-500">${candidateProfile.course} • Fucape</p>
+                                <p class="text-[11px] text-brand-600 font-medium mt-0.5 flex items-center gap-1"><i class="fa-solid fa-briefcase text-xs"></i> Inscrito em: ${job.title}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="openCandidateDetailModal()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 font-medium text-xs rounded-none transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-file-lines text-brand-600"></i> Analisar Candidato
+                            </button>
+                            <button onclick="triggerInterviewAlert('${job.company}')" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-700 text-white font-medium text-xs rounded-none transition flex items-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-calendar-plus text-accentYellow-400"></i> Agendar Entrevista
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openJobModal(jobId) {
+            const job = jobsData.find(j => j.id === jobId);
+            const modal = document.getElementById('jobModal');
+            const content = document.getElementById('jobModalContent');
+
+            content.innerHTML = `
+                <span class="px-2.5 py-0.5 bg-brand-50 text-brand-700 text-xs font-semibold rounded-none border border-brand-200">${job.category}</span>
+                <h3 class="text-xl font-bold mt-2 mb-1">${job.title}</h3>
+                <p class="text-xs font-medium mb-4 flex items-center gap-2"><i class="fa-solid fa-building text-brand-600"></i> ${job.company} • <i class="fa-solid fa-location-dot text-brand-600"></i> ${job.location}</p>
+                <div class="space-y-3 text-xs mb-6 font-normal">
+                    <div>
+                        <h4 class="font-bold mb-1 flex items-center gap-1.5"><i class="fa-solid fa-align-left text-brand-600"></i> Descrição da Vaga</h4>
+                        <p class="leading-relaxed">${job.desc}</p>
+                    </div>
+                </div>
+                <button onclick="closeJobModal(); handleHomepageApply(${job.id});" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-none transition text-xs flex items-center justify-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-paper-plane text-accentYellow-400"></i> Candidatar-se na Área do Aluno
+                </button>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function closeJobModal() {
+            document.getElementById('jobModal').classList.add('hidden');
+        }
+
+        function openAuthModal(type) {
+            currentAuthType = type;
+            const modal = document.getElementById('authModal');
+            const title = document.getElementById('authModalTitle');
+            const sub = document.getElementById('authModalSub');
+            const icon = document.getElementById('authModalIcon');
+
+            if (type === 'candidate') {
+                title.innerText = 'Área do Estudante';
+                sub.innerText = 'Entre para acompanhar suas vagas e currículo.';
+                icon.innerHTML = '<i class="fa-solid fa-user text-brand-600"></i>';
+            } else {
+                title.innerText = 'Área da Empresa';
+                sub.innerText = 'Entre para cadastrar vagas e analisar candidatos.';
+                icon.innerHTML = '<i class="fa-solid fa-building text-brand-600"></i>';
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function executeLogin() {
+            closeAuthModal();
+            isLoggedIn = true;
+            hasNotification = true;
+            updateAuthNav();
+
+            if (currentAuthType === 'candidate') {
+                if (pendingJobApplyId) {
+                    if (!appliedJobs.includes(pendingJobApplyId)) {
+                        appliedJobs.push(pendingJobApplyId);
+                        const job = jobsData.find(j => j.id === pendingJobApplyId);
+                        showToast(`Login efetuado e candidatura enviada para ${job.company}!`);
+                    }
+                    pendingJobApplyId = null;
+                } else {
+                    showToast('Login de estudante realizado com sucesso!');
+                }
+                switchView('candidate');
+                switchStudentTab('candidaturas');
+            } else {
+                switchView('company');
+                showToast('Login de empresa realizado com sucesso!');
+            }
+        }
+
+        function handleCreateJobFull(event) {
+            event.preventDefault();
+            const newJob = {
+                id: jobsData.length + 1,
+                title: document.getElementById('newJobTitleFull').value,
+                company: document.getElementById('newJobCompanyFull').value,
+                category: document.getElementById('newJobCategoryFull').value,
+                location: document.getElementById('newJobLocationFull').value,
+                salary: document.getElementById('newJobSalaryFull').value,
+                desc: document.getElementById('newJobDescFull').value,
+                applicants: 0,
+                status: 'Ativa'
+            };
+            jobsData.unshift(newJob);
+            renderJobs(jobsData);
+            renderCompanyJobs();
+            renderCompanyRecentJobs();
+            showToast('Vaga cadastrada com sucesso no portal!');
+            document.getElementById('newJobFormFull').reset();
+            switchCompanyTab('vagas');
+        }
+
+        function closeResumeModal() {
+            document.getElementById('resumeModal').classList.add('hidden');
+        }
+        function openResumeModal() {
+            document.getElementById('resumeModal').classList.remove('hidden');
+        }
+        function alertResumeSuccess() {
+            showToast('Currículo PDF enviado e validado com sucesso pela curadoria!');
+        }
+
+        function openCandidateDetailModal() {
+            const modal = document.getElementById('candidateDetailModal');
+            const content = document.getElementById('candidateDetailContent');
+            content.innerHTML = `
+                <div class="flex items-center gap-3 mb-5">
+                    <div class="w-12 h-12 rounded-none bg-slate-100 flex items-center justify-center font-bold text-sm border border-slate-300">LM</div>
+                    <div>
+                        <h3 class="text-base font-bold">${candidateProfile.name}</h3>
+                        <p class="text-xs text-slate-500">${candidateProfile.course} • ${candidateProfile.university}</p>
+                    </div>
+                </div>
+                <div class="space-y-2.5 text-xs mb-6 bg-slate-50 p-4 rounded-none border border-slate-200">
+                    <div class="flex items-center gap-2"><strong><i class="fa-solid fa-envelope text-brand-600"></i> Email:</strong> ${candidateProfile.email}</div>
+                    <div class="flex items-center gap-2"><strong><i class="fa-solid fa-code text-brand-600"></i> Habilidades:</strong> ${candidateProfile.skills.join(', ')}</div>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="closeCandidateDetailModal(); showToast('Currículo baixado com sucesso!');" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 font-medium rounded-none text-xs transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-file-arrow-down text-brand-600"></i> Baixar Currículo PDF
+                    </button>
+                    <button onclick="closeCandidateDetailModal(); triggerInterviewAlert('TechCorp');" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-none transition flex items-center justify-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-calendar-plus text-accentYellow-400"></i> Agendar Entrevista
+                    </button>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+        function closeCandidateDetailModal() {
+            document.getElementById('candidateDetailModal').classList.add('hidden');
+        }
+
+        function triggerInterviewAlert(compName) {
+            document.getElementById('alertCompanyName').innerText = compName;
+            const alertBox = document.getElementById('interviewAlertBox');
+            if (alertBox) alertBox.classList.remove('hidden');
+            hasNotification = true;
+            showToast(`Alerta de entrevista gerado para ${compName}!`);
+        }
+
+        function confirmInterview() {
+            showToast('Entrevista confirmada com sucesso! Boa sorte!');
+            const alertBox = document.getElementById('interviewAlertBox');
+            if (alertBox) alertBox.classList.add('hidden');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
